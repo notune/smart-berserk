@@ -4,9 +4,12 @@ const C_ID = 'sbCanvas'; // canvas id
 const MAX_RATING = 3200;
 const MIN_RATING = 600;
 
-function createCanvas() {
-        window[C_ID] = new OffscreenCanvas(IMG_SIZE, IMG_SIZE);
-        return window[C_ID];
+function createCanvas () {
+  const canvas = document.createElement('canvas');
+  canvas.width  = IMG_SIZE;
+  canvas.height = IMG_SIZE;
+  window[C_ID]  = canvas;
+  return canvas;
 }
 
 async function drawImage(ctx, path) {
@@ -42,7 +45,7 @@ async function shouldBerserk(tc='1+0', streak=0, side='w', opp='db', rating=1500
 
         streak = Math.min(streak, 2);
         let relativePath = `./img/${tc}_${Math.min(streak, 2)}s_${side}_${opp}.png`;
-        let path = chrome.runtime.getURL(relativePath);
+        let path = browser.runtime.getURL(relativePath);
         await drawImage(ctx, path);
 
         let pixel = getPixel(ctx, rating, opp_rating)
